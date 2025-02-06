@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'paint',
+    'django_resized',
+    'django_ckeditor_5',
 ]
 
 MIDDLEWARE = [

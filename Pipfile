@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 django = "*"
 pillow = "*"
+django-resized = "*"
+django-ckeditor-5 = "*"
 
 [dev-packages]
 

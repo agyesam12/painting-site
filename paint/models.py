@@ -47,7 +47,6 @@ class User(AbstractUser):
 
 
 class Service(models.Model):
-    """Represents different types of painting services."""
     service_id = IntegerIDField(unique=True, editable=False, primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()

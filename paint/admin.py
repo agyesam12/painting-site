@@ -9,4 +9,6 @@ admin.site.register(Portfolio),
 admin.site.register(Testimonial),
 admin.site.register(ContactRequest),
 admin.site.register(EstimateRequest),
-admin.site.register(Notification)
+admin.site.register(Notification),
+admin.site.register(FAQ)
+

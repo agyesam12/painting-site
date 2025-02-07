@@ -120,3 +120,12 @@ def create_testimonial(request):
     else:
         form = TestimonialForm()
     return render(request, 'create_testimonial.html', {'form': form})
+
+
+def book_us(request):
+    if request.method == "POST":
+        name = request.POST['name']
+        address = request.POST['address']
+        email = request.POST['email']
+        location = request.POST['location']
+    return render(request,'home.html')

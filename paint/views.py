@@ -35,6 +35,7 @@ from .forms import *
 from .forms import UserRegistrationForm
 #import stripe
 from django.utils.decorators import method_decorator
+from .forms import ServiceForm, PortfolioForm, TestimonialForm
 #import stripe
 
 # Create your views here.
@@ -75,6 +76,4 @@ def admin_dashboard(request):
     if not request.user.is_admin or request.user.is_staff:
         messages.info(request, f"You are not allowed to access this page")
         return redirect('signin')
-    
-    
     return render(request, 'user_dashboard.html')

@@ -71,5 +71,10 @@ def signout(request):
     return redirect('signin')
 
 
-def user_dashboard(request):
+def admin_dashboard(request):
+    if not request.user.is_admin or request.user.is_staff:
+        messages.info(request, f"You are not allowed to access this page")
+        return redirect('signin')
+    
+    
     return render(request, 'user_dashboard.html')

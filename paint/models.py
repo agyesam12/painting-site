@@ -107,6 +107,17 @@ class EstimateRequest(models.Model):
     def __str__(self):
         return f"Estimate for {self.service_type.name} by {self.name}"
 
+
+# FAQ Model
+class FAQ(models.Model):
+    faq_id = IntegerIDField(unique=True, editable=False, primary_key=True)
+    question = models.CharField(max_length=255)
+    answer = models.TextField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.question
+
 # Notification Model
 class Notification(models.Model):
     notification_id = IntegerIDField(unique=True, editable=False, primary_key=True)

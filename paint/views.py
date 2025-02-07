@@ -32,6 +32,7 @@ from django.urls import reverse,reverse_lazy
 from django.views import View
 from .models import *
 from .forms import *
+from .forms import UserRegistrationForm
 #import stripe
 from django.utils.decorators import method_decorator
 #import stripe
@@ -46,6 +47,29 @@ def home(request):
 def signin(request):
     return render(request, 'signin.html')
 
+    
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_user = True
+            user.save()
+            messages.success(request, f"Acount created successfully")
+            login(request, user)
+            return redirect('home')  # Redirect to a success page
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'register.html', {'form': form})
+    
 
+
+@login_required
 def signout(request):
+    logout(request)
+    messages.success(request,f"You have logged out successfuly..")
     return redirect('signin')
+
+
+def user_dashboard(request):
+    return render(request, 'user_dashboard.html')

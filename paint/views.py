@@ -102,7 +102,7 @@ def create_portfolio(request):
             portfolio = form.save(commit=False)
             portfolio.created_by = request.user
             portfolio.save()
-            return redirect('portfolio_list')  # Redirect to a page that lists portfolios
+            return redirect('portfolio_lists')  # Redirect to a page that lists portfolios
     else:
         form = PortfolioForm()
     return render(request, 'create_portfolio.html', {'form': form})
@@ -124,8 +124,84 @@ def create_testimonial(request):
 
 def book_us(request):
     if request.method == "POST":
+        service = request.POST['service']
         name = request.POST['name']
         address = request.POST['address']
         email = request.POST['email']
         location = request.POST['location']
+        message = request.POST['message']
+        a = ContactRequest(name=name,address=address,email=email,location=location,service_type=service, message=message)
+        a.save()
+        messages.success(request, f"Your booking has been submited successfully, the team will reach out to you immediately")
+        return redirect(request.META.get("HTTP_REFERER"))
     return render(request,'home.html')
+
+
+
+def booking_requests(request):
+    if not request.user.is_admin:
+        messages.info(request, f"You are not authorized to access this page")
+        return redirect("signin")
+    bookings  = ContactRequest.objects.all()
+    context = {'bookings':bookings}
+    return render(request, 'bookings.html', context)
+
+
+
+class UpdatePortfolio(LoginRequiredMixin,UpdateView):
+    model = Portfolio
+    template_name = 'update_portfolio.html'
+
+    def get_context_data(request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = 'portfolios'
+        context['list_name'] = 'portfolio_lists'
+        return context
+    
+    
+    
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Your Portfolio has been updated successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse("portfolio_detail", kwargs={"slug": self.request.user.user_id})
+
+
+
+class PortfolioDeleteView(DeleteView, LoginRequiredMixin):
+    model = Portfolio
+    template_name = 'portfolio_confirm_delete.html'
+    
+    def get_context_data(self , **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = "portfolio_delete"
+        
+        return context
+    
+    def get_success_url(self):
+        messages.success(self.request, f"Portfolio deleted successfully!")
+        return reverse('portfolio_lists')
+    
+
+def portfolio_lists(request):
+    portfolios = Portfolio.objects.all()
+    context = {'portfolios':portfolios}
+    return render(request, 'portfolio_lists', context)
+
+
+class PortfolioDetailView(LoginRequiredMixin, DetailView):
+    model = Portfolio
+    template_name = 'portfolio_detail.html'
+    context_object_name = 'portfolio'
+    slug_field = 'portfolio_id'
+    
+    def get_context_data(self , **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = "portfolio_detail"
+        return context
+
+

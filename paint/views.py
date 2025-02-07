@@ -77,3 +77,46 @@ def admin_dashboard(request):
         messages.info(request, f"You are not allowed to access this page")
         return redirect('signin')
     return render(request, 'user_dashboard.html')
+
+
+
+@login_required
+def create_service(request):
+    if request.method == 'POST':
+        form = ServiceForm(request.POST, request.FILES)
+        if form.is_valid():
+            service = form.save(commit=False)
+            service.created_by = request.user
+            service.save()
+            return redirect('service_list')  # Redirect to a page that lists services
+    else:
+        form = ServiceForm()
+    return render(request, 'create_service.html', {'form': form})
+
+
+@login_required
+def create_portfolio(request):
+    if request.method == 'POST':
+        form = PortfolioForm(request.POST, request.FILES)
+        if form.is_valid():
+            portfolio = form.save(commit=False)
+            portfolio.created_by = request.user
+            portfolio.save()
+            return redirect('portfolio_list')  # Redirect to a page that lists portfolios
+    else:
+        form = PortfolioForm()
+    return render(request, 'create_portfolio.html', {'form': form})
+
+
+
+@login_required
+def create_testimonial(request):
+    if request.method == 'POST':
+        form = TestimonialForm(request.POST)
+        if form.is_valid():
+            testimonial = form.save(commit=False)
+            testimonial.save()
+            return redirect('testimonial_list')  # Redirect to a page that lists testimonials
+    else:
+        form = TestimonialForm()
+    return render(request, 'create_testimonial.html', {'form': form})

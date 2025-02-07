@@ -15,6 +15,15 @@ SERVICE_CATEGORIES = (
     ('Commercial', 'Commercial'),
     ('Industrial', 'Industrial'),
     ('Historical', 'Historical'),
+    
+)
+BOOKING_SERVICE_TYPE =(
+    ('Cabinet Painting', 'Cabinet Painting'),
+    ('Door Painting', 'Door Painting'),
+    ('Exterior Painting', 'Exterior Painting'),
+    ('Interior Painting', 'Interior Painting'),
+    ('Window Painting', 'Window Painting'),
+    ('Fence Painting', 'Fence Painting'),
 )
 
 ESTIMATE_STATUS = (
@@ -87,7 +96,10 @@ class ContactRequest(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=15, blank=True, null=True)
-    message = models.TextField()
+    service_type = models.CharField(max_length=100, choices=BOOKING_SERVICE_TYPE, default='Cabinet Painting')
+    address = models.CharField(max_length=200, null=True, blank=True)
+    location = models.CharField(max_length=200, null=True, blank=True)
+    message = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

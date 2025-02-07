@@ -79,6 +79,7 @@
           <li><a href="{% url 'booking_requests' %}">Booking Requests</a></li>
           <li><a href="#contact">Contact</a></li>
           <li><a href="{% url 'signout' %}">logout</a></li>
+          {% endif %}
         </ul>
       </nav>
     </header>
@@ -335,7 +336,8 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
         <input type="text" id="location" name="location" required />
           
         <label for="message">Add a message</label>
-        <textarea name="message" placeholder="Talk to Paint Palors Team"></textarea>
+        <textarea name="message" rows="4" cols="50" placeholder="Talk to Paint Parlor's Team"></textarea>
+
         <button type="submit">Submit</button>
          </form>
     </section>

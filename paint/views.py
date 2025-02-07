@@ -46,6 +46,21 @@ def home(request):
 
 
 def signin(request):
+    if request.method == "POST":
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, username=email, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Logged In Successfully...")
+            if user.is_user:
+                return redirect('user_dashboard')
+            elif user.is_admin:
+                return redirect('admin_dashboard')
+            elif user.is_worker:
+                return redirect('worker_dashboard')
+        else:
+            messages.error(request, "Invalid email or password")
     return render(request, 'signin.html')
 
     
@@ -205,3 +220,8 @@ class PortfolioDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
+def user_dashboard(request):
+    return render(request, 'user_dashboard.html')
+
+def worker_dashboard(request):
+    return render(request, 'worker_dashboard.html')

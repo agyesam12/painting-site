@@ -17,3 +17,19 @@ class UserRegistrationForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         for fieldname in ['full_name', 'email', 'password1', 'password2']:
             self.fields[fieldname].help_text = None
+
+
+class ServiceForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['name', 'description', 'category', 'image']
+
+class PortfolioForm(forms.ModelForm):
+    class Meta:
+        model = Portfolio
+        fields = ['title', 'description', 'before_image', 'after_image']
+
+class TestimonialForm(forms.ModelForm):
+    class Meta:
+        model = Testimonial
+        fields = ['name', 'message', 'rating']

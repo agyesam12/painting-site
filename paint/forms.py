@@ -29,6 +29,14 @@ class PortfolioForm(forms.ModelForm):
         model = Portfolio
         fields = ['title', 'description', 'before_image', 'after_image']
 
+
+
+class FAQForm(forms.ModelForm):
+    class Meta:
+        model = FAQ
+        fields = ['question']
+
+
 class TestimonialForm(forms.ModelForm):
     class Meta:
         model = Testimonial

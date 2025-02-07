@@ -30,7 +30,7 @@
 
 
 <!-- Home Section -->
-    <section id="home" class="home">
+    <section id="home" class="home" style="background-image: url(`{% static 'assets/home.jpg' %}`);">
       <div class="home-content">
         <h2>Perfect Blend of Colors and Craftsmanship</h2>
         <a href="#book-us" class="cta-btn">Book Us Now</a>
@@ -195,7 +195,7 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
       <div class="testimonial-row">
         <div class="testimonial-col">
           <div class="user">
-            <img src="assests/client.jpg" alt="user pic">
+            <img src="{% static 'assests/client.jpg' %}" alt="user pic">
             <div class="user-info">
               <h4>solomon Akotua<i class="fa fa-twitter-square" aria-hidden="true"></i></h4>
               <small>@soloako</small>
@@ -210,7 +210,7 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
         </div>
         <div class="testimonial-col">
           <div class="user">
-            <img src="assests/client.jpg" alt="user pic">
+            <img src="{% static 'assests/client.jpg' %}" alt="user pic">
             <div class="user-info">
               <h4>Mary Rose<i class="fa fa-twitter-square" aria-hidden="true"></i></h4>
               <small>@maryrosee</small>
@@ -225,7 +225,7 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
         </div>
         <div class="testimonial-col">
           <div class="user">
-            <img src="assests/client.jpg" alt="user pic">
+            <img src="{% static 'assests/client.jpg' %}" alt="user pic">
             <div class="user-info">
               <h4>Miriam Daniel<i class="fa fa-twitter-square" aria-hidden="true"></i></h4>
               <small>@mimidan</small>
@@ -243,7 +243,7 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
 
 <!----book us now-->
 <section id="contact">
-  <img src="assests/walls.jpg" class="footer-img">
+  <img src="{% static 'assests/walls.jpg' %}" class="footer-img">
   <div class="title-text">
         <p>contact Us</p>
         <h1>  Today</h1>
@@ -256,6 +256,7 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
         <img src="assests/fence.jpg" alt="">
       </div>
       <form id="booking-form" method ="post" action=".">
+        {% csrf_token %}
         <label for="service">Service Type</label>
         <select id="service" name="service">
           <option value="service1">Exterior Painting</option>

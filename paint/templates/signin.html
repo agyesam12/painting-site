@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>sign in</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script scr="https://cdnjs.cloudflare.com/ajax/libs/boostrap-sweetalert/1.0.1/sweetalert.min.css.map"></script>
     <style>
         /* General Styling */
 * {
@@ -177,6 +179,16 @@ h2 {
         <img src="{% static 'images/image/financial-2860753_640.jpg' %}" alt="">
     </div>
 </section>
+<script>
+  {% for message in messages %}
+      Swal.fire({
+          icon: "{{ message.tags }}",
+          title: "{{ message }}",
+          text: "{{message.tags}}",
+          timer: 3800
+      });
+  {% endfor %}
+</script>
 
 
 </body>

@@ -91,10 +91,18 @@ def signout(request):
 def admin_dashboard(request):
     if request.user.is_admin:    
         messages.info(request, f"Welcome admin")
+        total_notifications = Notification.objects.filter(user=request.user, is_read=False).count()
+        pending_bookings = ContactRequest.objects.filter(service_type__in=[service[0] for service in BOOKING_SERVICE_TYPE])
+        portfolio_updates = Portfolio.objects.all().order_by('-created_at')[:10]  # Fetch the latest 10 portfolio updates
+        context = {
+            'total_notifications': total_notifications,
+            'pending_bookings': pending_bookings,
+            'portfolio_updates': portfolio_updates,
+        }
     else:
         messages.info(request, f"You are not allowed to access this page ..")
         return redirect('signin')
-    return render(request, 'admin_dashboard.html')
+    return render(request, 'admin_dashboard.html',context)
 
 
 

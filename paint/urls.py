@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import *
 from django.contrib.auth import views as auth_view
 
 
@@ -10,7 +11,12 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('update_password/',auth_view.PasswordChangeView.as_view(template_name="update_password.html",success_url="/user_dashboard/" ),name='update_password'),
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
-     path('create_service/', views.create_service, name='create_service'),
+    path('create_service/', views.create_service, name='create_service'),
     path('create_portfolio/', views.create_portfolio, name='create_portfolio'),
     path('create_testimonial/', views.create_testimonial, name='create_testimonial'),
+    path('book_us/', views.book_us, name='book_us'),
+    path('booking_requests', views.booking_requests, name='booking_requests'),
+    path('portfolio_lists', views.portfolio_lists, name='portfolio_lists'),
+    path('UpdatePortfolio/<str:pk>/', UpdatePortfolio.as_view(), name='update_portfolio'),
+    path('portfolio/datail/<str:pk>/',PortfolioDetailView.as_view(),name='portfolio_detail'),
 ]

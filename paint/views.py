@@ -61,6 +61,7 @@ def signin(request):
                 return redirect('worker_dashboard')
         else:
             messages.error(request, "Invalid email or password")
+            print("Error Mesage")
     return render(request, 'signin.html')
 
     

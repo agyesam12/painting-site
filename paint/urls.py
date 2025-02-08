@@ -20,4 +20,6 @@ urlpatterns = [
     path('UpdatePortfolio/<str:pk>/', UpdatePortfolio.as_view(), name='update_portfolio'),
     path('portfolio/datail/<str:pk>/',PortfolioDetailView.as_view(),name='portfolio_detail'),
     path('DisplayNotifications/', DisplayNotifications.as_view(), name='DisplayNotifications'),
+    path('mark-notification-read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
+    path('display_notifications', views.display_notifications, name='display_notifications'),
 ]

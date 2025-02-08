@@ -51,14 +51,18 @@ def home(request):
         address = request.POST['address']
         email = request.POST['email']
         location = request.POST['location']
+        phone =request.POST['phone']
         message = request.POST['message']
-        a = ContactRequest(name=name,address=address,email=email,location=location,service_type=service, message=message)
+        a = ContactRequest(name=name,address=address,email=email,location=location,service_type=service,phone=phone, message=message)
         a.save()
         messages.success(request, f"Your booking has been submited successfully, the team will reach out to you immediately")
         return redirect(request.META.get("HTTP_REFERER"))
     else:
+        context = {
+            'booking_service_types': BOOKING_SERVICE_TYPE
+        }
         print("Form not submitted yet")
-    return render(request,'home.html')
+    return render(request,'home.html',context)
 
 
 def signin(request):
@@ -171,10 +175,11 @@ def book_us(request):
         address = request.POST['address']
         email = request.POST['email']
         location = request.POST['location']
+        phone =request.POST['phone']
         message = request.POST['message']
         
         # Create and save the contact request
-        a = ContactRequest(name=name, address=address, email=email, location=location, service_type=service, message=message)
+        a = ContactRequest(name=name, address=address, email=email, location=location, service_type=service,phone=phone, message=message)
         a.save()
         
         messages.success(request, "Your booking has been submitted successfully. The team will reach out to you immediately.")

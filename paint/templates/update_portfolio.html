@@ -1,0 +1,38 @@
+{% block content %}
+  <h1>Update Portfolio: {{ object.title }}</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <h2>Before Image Preview</h2>
+    <img src="{{ object.before_image.url }}" alt="Before Image Preview" id="before-image-preview" width="200" height="200">
+    <h2>After Image Preview</h2>
+    <img src="{{ object.after_image.url }}" alt="After Image Preview" id="after-image-preview" width="200" height="200">
+    <script>
+      // Image preview script
+      const beforeImageInput = document.getElementById('id_before_image');
+      const afterImageInput = document.getElementById('id_after_image');
+      const beforeImagePreview = document.getElementById('before-image-preview');
+      const afterImagePreview = document.getElementById('after-image-preview');
+
+      beforeImageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          beforeImagePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      afterImageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          afterImagePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    </script>
+    <button type="submit" class="btn btn-primary">Update Portfolio</button>
+    <a href="{% url 'portfolio_detail' object.portfolio_id %}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

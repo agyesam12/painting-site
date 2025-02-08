@@ -245,7 +245,7 @@ class PortfolioDeleteView(DeleteView, LoginRequiredMixin):
 def portfolio_lists(request):
     portfolios = Portfolio.objects.all()
     context = {'portfolios':portfolios}
-    return render(request, 'portfolio_lists', context)
+    return render(request, 'portfolio_lists.html', context)
 
 
 class PortfolioDetailView(LoginRequiredMixin, DetailView):
@@ -301,3 +301,18 @@ def display_notifications(request):
     notifications = Notification.objects.all()
     context = {'notifications':notifications}
     return render(request, 'all_notifications.html', context)
+
+
+class DisplayPortfolios(ListView):
+    model = Portfolio
+    template_name = 'portfolio_lists.html'
+    context_object_name = 'portfolios'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = 'portfolios'
+        context['list_name'] = 'portfolis'
+        return context
+    
+    def get_queryset(self):
+        return Portfolio.objects.filter(created_at__lt=timezone.now()).order_by('created_at')

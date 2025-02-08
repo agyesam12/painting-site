@@ -38,6 +38,7 @@ from .forms import UserRegistrationForm
 from django.utils.decorators import method_decorator
 from .forms import ServiceForm, PortfolioForm, TestimonialForm
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 #import stripe
 
 # Create your views here.
@@ -276,3 +277,22 @@ class DisplayNotifications(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Notification.objects.filter(user=self.request.user,created_at__lt=timezone.now(),is_read=False).order_by('created_at')
+    
+
+def mark_notification_read(request, notification_id):
+    if request.method == "POST":
+        try:
+            notification = get_object_or_404(Notification, pk=notification_id, user=request.user)
+            notification.is_read = True
+            notification.save()
+            return JsonResponse({"success": True})
+        except Exception as e:
+            print(f"Error marking notification as read: {e}")  # Debugging
+            return JsonResponse({"success": False, "error": str(e)}, status=500)
+    return JsonResponse({"success": False, "error": "Invalid request"}, status=400)
+
+
+def display_notifications(request):
+    notifications = Notification.objects.all()
+    context = {'notifications':notifications}
+    return render(request, 'all_notifications.html', context)

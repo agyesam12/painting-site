@@ -206,6 +206,7 @@ def booking_requests(request):
 class UpdatePortfolio(LoginRequiredMixin,UpdateView):
     model = Portfolio
     template_name = 'update_portfolio.html'
+    fields =['title','description','before_image','after_image']
 
     def get_context_data(request, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -213,17 +214,16 @@ class UpdatePortfolio(LoginRequiredMixin,UpdateView):
         context['list_name'] = 'portfolio_lists'
         return context
     
-    
-    
     def get_object(self, queryset=None):
-        return self.request.user
+        return Portfolio.objects.get(portfolio_id=self.kwargs['portfolio_id'])
+
     
     def form_valid(self, form):
         messages.success(self.request, 'Your Portfolio has been updated successfully!')
         return super().form_valid(form)
     
     def get_success_url(self):
-        return reverse("portfolio_detail", kwargs={"slug": self.request.user.user_id})
+        return reverse("portfolio_detail", kwargs={"pk": self.object.pk})
 
 
 
@@ -253,6 +253,9 @@ class PortfolioDetailView(LoginRequiredMixin, DetailView):
     template_name = 'portfolio_detail.html'
     context_object_name = 'portfolio'
     slug_field = 'portfolio_id'
+
+    def get_object(self, queryset=None):
+        return Portfolio.objects.get(portfolio_id=self.kwargs['portfolio_id'])
     
     def get_context_data(self , **kwargs):
         context = super().get_context_data(**kwargs)

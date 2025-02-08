@@ -311,16 +311,13 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
       <div class="call">
         <img src="{% static 'assests/fence.jpg' %}" alt="">
       </div>
-      <form id="booking-form" method ="post" action=".">
+      <form id="booking-form" method="post" action=".">
         {% csrf_token %}
         <label for="service">Service Type</label>
-        <select id="service" name="service">
-          <option value="service1">Exterior Painting</option>
-          <option value="service2">cabinet painting</option>
-          <option value="service3">Door painting</option>
-          <option value="service4">Interior painting</option>
-          <option value="service5">Window painting</option>
-          <option value="service6">Fence painting</option>
+        <select id="service" name="service" required>
+            {% for service in booking_service_types %}
+                <option value="{{ service.0 }}">{{ service.1 }}</option>
+            {% endfor %}
         </select>
 
         <label for="name">Name</label>
@@ -334,12 +331,14 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
 
         <label for="location">Location</label>
         <input type="text" id="location" name="location" required />
-          
+        <label for="phone">Contact</label>
+        <input type="number" id="number" name="phone" required />
+        
         <label for="message">Add a message</label>
         <textarea name="message" rows="4" cols="50" placeholder="Talk to Paint Parlor's Team"></textarea>
 
-        <input type="submit" value="submit">
-         </form>
+        <input type="submit" value="Submit">
+    </form>
     </section>
 
 </section>

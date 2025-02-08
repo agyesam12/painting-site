@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Notifications</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            position: fixed;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .sidebar a:hover {
+            background: #495057;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+        }
+        .notifications-container {
+            max-width: 900px;
+            margin: auto;
+        }
+        .notification-card {
+            transition: all 0.3s ease-in-out;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .unread {
+            border-left: 5px solid #007bff;
+            background: #f1f8ff;
+        }
+        .read {
+            border-left: 5px solid #28a745;
+            background: #f8f9fa;
+        }
+        .notification-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .icon-container {
+            font-size: 1.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h4>Welcome {{ request.user.email }}</h4>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'DisplayNotifications' %}">Unread Notifications</a>
+        <a href="{% url 'all_notifications' %}">All Notifications</a>
+        <a href="{% url 'booking_requests' %}">Booking Requests</a>
+        <a href="{% url 'portfolio_lists' %}">Portfolio</a>
+        <a href="#users">Users</a>
+        <a href="#settings">Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">All Notifications</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link position-relative notification-icon" href="{% url 'DisplayNotifications' %}">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge">{{ total_notifications }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Notifications Content -->
+        <div class="container notifications-container">
+            <h2 class="text-center notifications-title mb-4">All Notifications</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    {% for notification in all_notifications %}
+                    <div class="notification-card card mb-3 shadow-sm {% if not notification.is_read %}unread{% else %}read{% endif %}">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="icon-container">
+                                {% if notification.is_read %}
+                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                {% else %}
+                                    <i class="bi bi-bell-fill text-primary"></i>
+                                {% endif %}
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h6 class="mb-1"><strong>From:</strong> {{ notification.user }}</h6>
+                                <p class="mb-1 text-muted">{{ notification.message }}</p>
+                                <small class="text-muted">{{ notification.created_at|date:"M d, Y H:i" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-center text-muted">No notifications available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 Admin Dashboard | All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

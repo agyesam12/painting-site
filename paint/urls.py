@@ -19,4 +19,5 @@ urlpatterns = [
     path('portfolio_lists', views.portfolio_lists, name='portfolio_lists'),
     path('UpdatePortfolio/<str:pk>/', UpdatePortfolio.as_view(), name='update_portfolio'),
     path('portfolio/datail/<str:pk>/',PortfolioDetailView.as_view(),name='portfolio_detail'),
+    path('DisplayNotifications/', DisplayNotifications.as_view(), name='DisplayNotifications'),
 ]

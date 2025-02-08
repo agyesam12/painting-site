@@ -106,7 +106,7 @@
             <h2 class="text-center notifications-title mb-4">All Notifications</h2>
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    {% for notification in all_notifications %}
+                    {% for notification in notifications %}
                     <div class="notification-card card mb-3 shadow-sm {% if not notification.is_read %}unread{% else %}read{% endif %}">
                         <div class="card-body d-flex align-items-center">
                             <div class="icon-container">

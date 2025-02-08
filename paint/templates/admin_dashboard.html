@@ -53,8 +53,8 @@
         <a href="{% url 'DisplayNotifications' %}">Notifications</a>
         <a href="{% url 'booking_requests' %}">Booking Requests</a>
         <a href="{% url 'portfolio_lists' %}">Portfolio</a>
-        <a href="#users">Users</a>
-        <a href="#settings">Settings</a>
+        <a href="{% url 'update_password' %}">Update Password</a>
+        <a href="{% url 'signout' %}">Logout</a>
     </div>
     <div class="content">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -148,8 +148,8 @@
                     <td>{{ booking.message }}</td>
                     <td>
                         <!-- Add actions like approve/reject here -->
-                        <button class="btn btn-success btn-sm">Approve</button>
-                        <button class="btn btn-danger btn-sm">Reject</button>
+                        <a href="#" class="btn btn-success btn-sm">delete</a>
+        
                     </td>
                 </tr>
                 {% endfor %}

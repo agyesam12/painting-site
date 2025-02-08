@@ -31,6 +31,7 @@ from django.conf import settings
 from django.urls import reverse,reverse_lazy
 from django.views import View
 from .models import *
+from .models import BOOKING_SERVICE_TYPE
 from .forms import *
 from .forms import UserRegistrationForm
 #import stripe
@@ -43,6 +44,19 @@ from django.utils import timezone
 
 
 def home(request):
+    if request.method == "POST":
+        service = request.POST['service']
+        name = request.POST['name']
+        address = request.POST['address']
+        email = request.POST['email']
+        location = request.POST['location']
+        message = request.POST['message']
+        a = ContactRequest(name=name,address=address,email=email,location=location,service_type=service, message=message)
+        a.save()
+        messages.success(request, f"Your booking has been submited successfully, the team will reach out to you immediately")
+        return redirect(request.META.get("HTTP_REFERER"))
+    else:
+        print("Form not submitted yet")
     return render(request,'home.html')
 
 
@@ -151,17 +165,25 @@ def create_testimonial(request):
 
 def book_us(request):
     if request.method == "POST":
-        service = request.POST['service']
         name = request.POST['name']
+        service = request.POST['service']
         address = request.POST['address']
         email = request.POST['email']
         location = request.POST['location']
         message = request.POST['message']
-        a = ContactRequest(name=name,address=address,email=email,location=location,service_type=service, message=message)
+        
+        # Create and save the contact request
+        a = ContactRequest(name=name, address=address, email=email, location=location, service_type=service, message=message)
         a.save()
-        messages.success(request, f"Your booking has been submited successfully, the team will reach out to you immediately")
-        return redirect(request.META.get("HTTP_REFERER"))
-    return render(request,'home.html')
+        
+        messages.success(request, "Your booking has been submitted successfully. The team will reach out to you immediately.")
+        return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        context = {
+            'booking_service_types': BOOKING_SERVICE_TYPE
+        }
+        print("Form not submitted yet")
+    return render(request, 'book_us.html',context)
 
 
 

@@ -1,0 +1,37 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+    .image-gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-gallery img {
+  width: 80%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+
+</style>
+  <h1>{{ portfolio.title }}</h1>
+  <p>{{ portfolio.description }}</p>
+  <div class="image-gallery">
+    <h2>Before Image</h2>
+    <img src="{{ portfolio.before_image.url }}" alt="Before Image" />
+    <h2>After Image</h2>
+    <img src="{{ portfolio.after_image.url }}" alt="After Image" />
+  </div>
+  <p>Created by: {{ portfolio.created_by.email }}</p>
+  <p>Created at: {{ portfolio.created_at }}</p>
+  <p>Last updated: {{ portfolio.updated_at }}</p>
+  {% if request.user == portfolio.created_by %}
+    <a href="{% url 'update_portfolio' portfolio.portfolio_id %}">Edit Portfolio</a>
+    <a href="{% url 'delete_portfolio' portfolio.portfolio_id %}">Delete Portfolio</a>
+  {% endif %}
+{% endblock %}
+

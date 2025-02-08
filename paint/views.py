@@ -36,6 +36,7 @@ from .forms import UserRegistrationForm
 #import stripe
 from django.utils.decorators import method_decorator
 from .forms import ServiceForm, PortfolioForm, TestimonialForm
+from django.utils import timezone
 #import stripe
 
 # Create your views here.
@@ -236,3 +237,20 @@ def user_dashboard(request):
 
 def worker_dashboard(request):
     return render(request, 'worker_dashboard.html')
+
+
+class DisplayNotifications(LoginRequiredMixin, ListView):
+    model = Notification
+    template_name = 'notifications.html'
+    context_object_name = 'notifications'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = 'notifications'
+        context['list_name'] = 'notifications'
+        return context
+
+
+    def get_queryset(self):
+        return Notification.objects.filter(user=self.request.user,created_at__lt=timezone.now(),is_read=False).order_by('created_at')

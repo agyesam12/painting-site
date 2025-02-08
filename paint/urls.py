@@ -22,4 +22,5 @@ urlpatterns = [
     path('DisplayNotifications/', DisplayNotifications.as_view(), name='DisplayNotifications'),
     path('mark-notification-read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
     path('display_notifications', views.display_notifications, name='display_notifications'),
+    path('portfolios_page/', DisplayPortfolios.as_view(), name='portfolios_page')
 ]

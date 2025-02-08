@@ -71,9 +71,9 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4>Welcome {{ request.user.email }}</h4>
-        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'admin_dashboard' %}">Dashboard</a>
         <a href="{% url 'DisplayNotifications' %}">Unread Notifications</a>
-        <a href="{% url 'all_notifications' %}">All Notifications</a>
+        <a href="{% url 'display_notifications' %}">All Notifications</a>
         <a href="{% url 'booking_requests' %}">Booking Requests</a>
         <a href="{% url 'portfolio_lists' %}">Portfolio</a>
         <a href="#users">Users</a>

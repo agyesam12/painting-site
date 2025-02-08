@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .portfolio-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.portfolio-item {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-gallery img {
+  width: 45%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+
+</style>
+  <h1>Portfolios</h1>
+  <div class="portfolio-list">
+    {% for portfolio in portfolios %}
+      <div class="portfolio-item">
+        <h2>{{ portfolio.title }}</h2>
+        <p>{{ portfolio.description }}</p>
+        <div class="image-gallery">
+          <img src="{{ portfolio.before_image.url }}" alt="Before Image" />
+          <img src="{{ portfolio.after_image.url }}" alt="After Image" />
+        </div>
+        <p>Created by: {{ portfolio.created_by.email }}</p>
+        <p>Created at: {{ portfolio.created_at }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

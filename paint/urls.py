@@ -17,10 +17,11 @@ urlpatterns = [
     path('book_us/', views.book_us, name='book_us'),
     path('booking_requests', views.booking_requests, name='booking_requests'),
     path('portfolio_lists', views.portfolio_lists, name='portfolio_lists'),
-    path('UpdatePortfolio/<str:pk>/', UpdatePortfolio.as_view(), name='update_portfolio'),
-    path('portfolio/datail/<str:pk>/',PortfolioDetailView.as_view(),name='portfolio_detail'),
+    path('UpdatePortfolio/<int:portfolio_id>/', UpdatePortfolio.as_view(), name='update_portfolio'),
+    path('portfolio/datail/<int:portfolio_id>/',PortfolioDetailView.as_view(),name='portfolio_detail'),
     path('DisplayNotifications/', DisplayNotifications.as_view(), name='DisplayNotifications'),
     path('mark-notification-read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
     path('display_notifications', views.display_notifications, name='display_notifications'),
-    path('portfolios_page/', DisplayPortfolios.as_view(), name='portfolios_page')
+    path('portfolios_page/', DisplayPortfolios.as_view(), name='portfolios_page'),
+    path('portfolio/delete/<int:portfolio_id>', PortfolioDeleteView.as_view(), name='delete_portfolio'),
 ]

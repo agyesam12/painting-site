@@ -70,7 +70,7 @@
           <li><a href="#services">Service</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#review">Review</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="{% url 'book_us' %}">Contact</a></li>
           <li><a href="{% url 'signin' %}">login</a></li>
           {% else %}
           <li><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
@@ -338,7 +338,7 @@ idshi shaio fjgugk i sujsf psufudv vduvudfi nvnrurs dfjvnio
         <label for="message">Add a message</label>
         <textarea name="message" rows="4" cols="50" placeholder="Talk to Paint Parlor's Team"></textarea>
 
-        <button type="submit">Submit</button>
+        <input type="submit" value="submit">
          </form>
     </section>
 

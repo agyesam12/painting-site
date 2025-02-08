@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Book Us Now Section -->
+<section id="book-us" class="book-us">
+    <h2>Book Us Now</h2>
+    <div class="call">
+        <img src="{% static 'assets/fence.jpg' %}" alt="">
+    </div>
+    <form id="booking-form" method="post" action="{% url 'book_us' %}">
+        {% csrf_token %}
+        <label for="service">Service Type</label>
+        <select id="service" name="service" required>
+            {% for service in booking_service_types %}
+                <option value="{{ service.0 }}">{{ service.1 }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" required />
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" required />
+        
+        <label for="message">Add a message</label>
+        <textarea name="message" rows="4" cols="50" placeholder="Talk to Paint Parlor's Team"></textarea>
+
+        <input type="submit" value="Submit">
+    </form>
+</section>
+
+{% endblock %}

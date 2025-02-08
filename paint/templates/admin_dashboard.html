@@ -48,11 +48,11 @@
 </head>
 <body>
     <div class="sidebar">
-        <h4>Admin Dashboard</h4>
+        <h4>Welcome {{request.user.email}}</h4>
         <a href="#dashboard">Dashboard</a>
-        <a href="#notifications">Notifications</a>
-        <a href="#bookings">Booking Requests</a>
-        <a href="#portfolio">Portfolio</a>
+        <a href="{% url 'DisplayNotifications' %}">Notifications</a>
+        <a href="{% url 'booking_requests' %}">Booking Requests</a>
+        <a href="{% url 'portfolio_lists' %}">Portfolio</a>
         <a href="#users">Users</a>
         <a href="#settings">Settings</a>
     </div>
@@ -71,7 +71,7 @@
                     </ul>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link position-relative notification-icon" href="#">
+                            <a class="nav-link position-relative notification-icon" href="{% url 'DisplayNotifications' %}">
                                 <i class="fas fa-bell"></i>
                                 <span class="badge">{{ total_notifications }}</span>
                             </a>

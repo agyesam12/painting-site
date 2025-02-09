@@ -24,4 +24,5 @@ urlpatterns = [
     path('display_notifications', views.display_notifications, name='display_notifications'),
     path('portfolios_page/', DisplayPortfolios.as_view(), name='portfolios_page'),
     path('portfolio/delete/<int:portfolio_id>', PortfolioDeleteView.as_view(), name='delete_portfolio'),
+    path('create_service/',CreateService.as_view(), name='create_service'),
 ]

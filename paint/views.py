@@ -341,3 +341,26 @@ class CreateService(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         messages.success(self.request, f"Service added successfully")
         return reverse('service_detail', kwargs={"pk": self.object.pk})
+
+  
+class UpdateService(LoginRequiredMixin, UpdateView):
+    model = Service
+    template_name = 'update_service.html'
+    fields =['name','description','category','image']
+
+    def get_context_data(request, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = 'services'
+        context['list_name'] = 'services_lists'
+        return context
+    
+    def get_object(self, queryset=None):
+        return Service.objects.get(portfolio_id=self.kwargs['service_id'])
+
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'Your Service has been updated successfully!')
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse("service_detail", kwargs={"pk": self.object.pk})

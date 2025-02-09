@@ -254,9 +254,11 @@ class PortfolioDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'portfolio'
     slug_field = 'portfolio_id'
 
+
     def get_object(self, queryset=None):
         return Portfolio.objects.get(portfolio_id=self.kwargs['portfolio_id'])
     
+
     def get_context_data(self , **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_name'] = "portfolio_detail"
@@ -265,6 +267,7 @@ class PortfolioDetailView(LoginRequiredMixin, DetailView):
 
 def user_dashboard(request):
     return render(request, 'user_dashboard.html')
+
 
 def worker_dashboard(request):
     return render(request, 'worker_dashboard.html')
@@ -311,12 +314,14 @@ class DisplayPortfolios(ListView):
     template_name = 'portfolio_lists.html'
     context_object_name = 'portfolios'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_name'] = 'portfolios'
         context['list_name'] = 'portfolis'
         return context
     
+
     def get_queryset(self):
         return Portfolio.objects.filter(created_at__lt=timezone.now()).order_by('created_at')
     
@@ -326,21 +331,25 @@ class CreateService(LoginRequiredMixin, CreateView):
     form_class = ServiceForm
     template_name = 'create_service.html'
 
+
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         context['page_name'] = 'create_services'
         context['list_name'] = 'service_lists'
         return context
     
+
     def form_valid(self,form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
     
+
     def get_success_url(self):
         messages.success(self.request, f"Service added successfully")
         return reverse('service_detail', kwargs={"pk": self.object.pk})
+
 
 
 class UpdateService(LoginRequiredMixin, UpdateView):
@@ -348,12 +357,14 @@ class UpdateService(LoginRequiredMixin, UpdateView):
     template_name = 'update_service.html'
     fields =['name','description','category','image']
 
+
     def get_context_data(request, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_name'] = 'services'
         context['list_name'] = 'services_lists'
         return context
     
+
     def get_object(self, queryset=None):
         return Service.objects.get(portfolio_id=self.kwargs['service_id'])
 
@@ -362,9 +373,11 @@ class UpdateService(LoginRequiredMixin, UpdateView):
         messages.success(self.request, 'Your Service has been updated successfully!')
         return super().form_valid(form)
     
+
     def get_success_url(self):
         return reverse("service_detail", kwargs={"pk": self.object.pk})
     
+
 
 
 class DisplayService(ListView):
@@ -372,14 +385,17 @@ class DisplayService(ListView):
     template_name = 'service_lists.html'
     context_object_name = 'services'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_name'] = 'services'
         context['list_name'] = 'services_lists'
         return context
     
+
     def get_queryset(self):
         return Service.objects.filter(created_at__lt=timezone.now()).order_by('created_at')
+
 
 
 class ServiceDetails(LoginRequiredMixin,DetailView):
@@ -388,24 +404,28 @@ class ServiceDetails(LoginRequiredMixin,DetailView):
     context_object_name = 'service'
     slug_field = 'service_id'
 
+
     def get_object(self, queryset=None):
         return Service.objects.get(service_id=self.kwargs['service_id'])
     
+
     def get_context_data(self , **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_name'] = "service_detail"
         return context
 
 
+
 class ServiceDeleteView(DeleteView, LoginRequiredMixin):
     model = Portfolio
     template_name = 'service_confirm_delete.html'
     
+
     def get_context_data(self , **kwargs):
         context = super().get_context_data(**kwargs)
         context['page_name'] = "service_delete"
-        
         return context
+    
     
     def get_success_url(self):
         messages.success(self.request, f"service deleted successfully!")

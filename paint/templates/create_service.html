@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+
+{% block content %}
+  <h1>Create Service</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Create Service</button>
+  </form>
+
+  <!-- Image preview -->
+  <div class="image-preview">
+    <h2>Image</h2>
+    <img id="before-image-preview" src="" alt="Before Image Preview" />
+    <h2>After Image Preview</h2>
+    <img id="after-image-preview" src="" alt="After Image Preview" />
+  </div>
+
+  <script>
+    // Image preview script
+    const beforeImageInput = document.getElementById('id_before_image');
+    const afterImageInput = document.getElementById('id_after_image');
+    const beforeImagePreview = document.getElementById('before-image-preview');
+    const afterImagePreview = document.getElementById('after-image-preview');
+    beforeImageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        beforeImagePreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    afterImageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        afterImagePreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
+{% endblock %}

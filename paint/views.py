@@ -342,7 +342,7 @@ class CreateService(LoginRequiredMixin, CreateView):
         messages.success(self.request, f"Service added successfully")
         return reverse('service_detail', kwargs={"pk": self.object.pk})
 
-  
+
 class UpdateService(LoginRequiredMixin, UpdateView):
     model = Service
     template_name = 'update_service.html'
@@ -364,3 +364,19 @@ class UpdateService(LoginRequiredMixin, UpdateView):
     
     def get_success_url(self):
         return reverse("service_detail", kwargs={"pk": self.object.pk})
+    
+
+
+class DisplayService(ListView):
+    model = Portfolio
+    template_name = 'service_lists.html'
+    context_object_name = 'services'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = 'services'
+        context['list_name'] = 'services_lists'
+        return context
+    
+    def get_queryset(self):
+        return Service.objects.filter(created_at__lt=timezone.now()).order_by('created_at')

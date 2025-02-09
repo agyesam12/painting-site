@@ -319,3 +319,25 @@ class DisplayPortfolios(ListView):
     
     def get_queryset(self):
         return Portfolio.objects.filter(created_at__lt=timezone.now()).order_by('created_at')
+    
+
+class CreateService(LoginRequiredMixin, CreateView):
+    model = Service
+    form_class = ServiceForm
+    template_name = 'create_service.html'
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = 'create_services'
+        context['list_name'] = 'service_lists'
+        return context
+    
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        messages.success(self.request, f"Service added successfully")
+        return reverse('service_detail', kwargs={"pk": self.object.pk})

@@ -380,3 +380,34 @@ class DisplayService(ListView):
     
     def get_queryset(self):
         return Service.objects.filter(created_at__lt=timezone.now()).order_by('created_at')
+
+
+class ServiceDetails(LoginRequiredMixin,DetailView):
+    model = Service
+    template_name = 'service_detail.html'
+    context_object_name = 'service'
+    slug_field = 'service_id'
+
+    def get_object(self, queryset=None):
+        return Service.objects.get(service_id=self.kwargs['service_id'])
+    
+    def get_context_data(self , **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = "service_detail"
+        return context
+
+
+class ServiceDeleteView(DeleteView, LoginRequiredMixin):
+    model = Portfolio
+    template_name = 'service_confirm_delete.html'
+    
+    def get_context_data(self , **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_name'] = "service_delete"
+        
+        return context
+    
+    def get_success_url(self):
+        messages.success(self.request, f"service deleted successfully!")
+        return reverse('display_service')
+    

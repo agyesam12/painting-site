@@ -61,6 +61,7 @@ class Service(models.Model):
     category = models.CharField(max_length=20, choices=SERVICE_CATEGORIES)
     image = models.ImageField(upload_to='services/')
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='services')
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name

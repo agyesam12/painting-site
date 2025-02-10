@@ -134,7 +134,7 @@ def create_service(request):
             service = form.save(commit=False)
             service.created_by = request.user
             service.save()
-            return redirect('service_list')  # Redirect to a page that lists services
+            return redirect('display_service')  # Redirect to a page that lists services
     else:
         form = ServiceForm()
     return render(request, 'create_service.html', {'form': form})
@@ -256,7 +256,7 @@ class PortfolioDetailView(LoginRequiredMixin, DetailView):
 
 
     def get_object(self, queryset=None):
-        return Portfolio.objects.get(portfolio_id=self.kwargs['portfolio_id'])
+        return Portfolio.objects.get(pk=self.kwargs['pk'])
     
 
     def get_context_data(self , **kwargs):
@@ -400,7 +400,7 @@ class DisplayService(ListView):
 
 class ServiceDetails(LoginRequiredMixin,DetailView):
     model = Service
-    template_name = 'service_detail.html'
+    template_name = 'service_details.html'
     context_object_name = 'service'
     slug_field = 'service_id'
 
@@ -431,3 +431,4 @@ class ServiceDeleteView(DeleteView, LoginRequiredMixin):
         messages.success(self.request, f"service deleted successfully!")
         return reverse('display_service')
     
+

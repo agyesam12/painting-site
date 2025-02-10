@@ -381,7 +381,7 @@ class UpdateService(LoginRequiredMixin, UpdateView):
 
 
 class DisplayService(ListView):
-    model = Portfolio
+    model = Service
     template_name = 'service_lists.html'
     context_object_name = 'services'
 
@@ -406,7 +406,7 @@ class ServiceDetails(LoginRequiredMixin,DetailView):
 
 
     def get_object(self, queryset=None):
-        return Service.objects.get(service_id=self.kwargs['service_id'])
+        return Service.objects.get(pk=self.kwargs['pk'])
     
 
     def get_context_data(self , **kwargs):
@@ -417,7 +417,7 @@ class ServiceDetails(LoginRequiredMixin,DetailView):
 
 
 class ServiceDeleteView(DeleteView, LoginRequiredMixin):
-    model = Portfolio
+    model = Service
     template_name = 'service_confirm_delete.html'
     
 

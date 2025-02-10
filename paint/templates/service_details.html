@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto py-10 px-6">
+        <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+            <img src="{{ service.image.url }}" alt="{{ service.name }}" class="w-full h-64 object-cover">
+            <div class="p-6">
+                <h1 class="text-3xl font-bold text-gray-800">{{ service.name }}</h1>
+                <span class="inline-block bg-blue-500 text-white text-xs px-3 py-1 rounded-full mt-3">{{ service.category }}</span>
+                <p class="text-gray-600 mt-4">{{ service.description }}</p>
+                <div class="mt-6">
+                    <p class="text-gray-500 text-sm">Created by: {{ service.created_by }}</p>
+                    <p class="text-gray-500 text-sm">Date: {{ service.created_at|date:"F d, Y" }}</p>
+                </div>
+                <a href="{% url 'display_service' %}" class="mt-6 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Back to Services</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

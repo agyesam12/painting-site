@@ -16,6 +16,6 @@
   <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Delete Portfolio</button>
-    <a href="{% url 'portfolio_detail_view' object.portfolio_id %}" class="btn btn-secondary">Cancel</a>
+    <a href="{% url 'portfolio_detail' object.portfolio_id %}" class="btn btn-secondary">Cancel</a>
   </form>
 {% endblock %}

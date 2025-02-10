@@ -43,8 +43,8 @@
         <p>Created by: {{ portfolio.created_by.email }}</p>
         <p>Created at: {{ portfolio.created_at }}</p>
         {% if request.user == portfolio.created_by %}
-    <a href="{% url 'update_portfolio' portfolio.portfolio_id %}">Edit Portfolio</a>
-    <a href="{% url 'delete_portfolio' portfolio.portfolio_id %}">Delete Portfolio</a>
+    <a href="{% url 'update_portfolio' portfolio.pk %}">Edit Portfolio</a>
+    <a href="{% url 'delete_portfolio' portfolio.pk %}">Delete Portfolio</a>
   {% endif %}
       </div>
     {% endfor %}

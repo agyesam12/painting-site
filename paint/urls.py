@@ -23,10 +23,11 @@ urlpatterns = [
     path('mark-notification-read/<int:notification_id>/', views.mark_notification_read, name='mark_notification_read'),
     path('display_notifications', views.display_notifications, name='display_notifications'),
     path('portfolios_page/', DisplayPortfolios.as_view(), name='portfolios_page'),
-    path('portfolio/delete/<int:portfolio_id>', PortfolioDeleteView.as_view(), name='delete_portfolio'),
+    path('portfolio/delete/<int:pk>', PortfolioDeleteView.as_view(), name='delete_portfolio'),
+    path('portfolio_detail/<int:pk>/', PortfolioDetailView.as_view(), name='portfolio_detail'),
     path('create_service/',CreateService.as_view(), name='create_service'),
     path('UpdateService/<int:portfolio_id>/', UpdateService.as_view(), name='update_service'),
     path('DisplayService/', DisplayService.as_view(), name='display_service'),
-    path('service/datail/<int:service_id>/',ServiceDetails.as_view(),name='service_detail'),
+    path('service/detail/<int:service_id>/',ServiceDetails.as_view(),name='service_detail'),
     path('service/delete/<int:service_id>', ServiceDeleteView.as_view(), name='delete_service'),
 ]

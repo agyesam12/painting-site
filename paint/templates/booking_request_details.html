@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking Request Details</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      padding-top: 60px;
+    }
+    .detail-card {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .detail-header {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .detail-label {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card detail-card shadow-sm">
+      <div class="card-header detail-header">
+        <h4 class="mb-0">Booking Request Details</h4>
+      </div>
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Request ID:</div>
+          <div class="col-sm-8">{{ contact_request_id }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Name:</div>
+          <div class="col-sm-8">{{ contact_request.name }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Email:</div>
+          <div class="col-sm-8">{{ contact_request.email }}</div>
+        </div>
+        {% if contact_request.phone %}
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Phone:</div>
+          <div class="col-sm-8">{{ contact_request.phone }}</div>
+        </div>
+        {% endif %}
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Service Type:</div>
+          <div class="col-sm-8">{{ contact_request.service_type }}</div>
+        </div>
+        {% if contact_request.address %}
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Address:</div>
+          <div class="col-sm-8">{{ contact_request.address }}</div>
+        </div>
+        {% endif %}
+        {% if contact_request.location %}
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Location:</div>
+          <div class="col-sm-8">{{ contact_request.location }}</div>
+        </div>
+        {% endif %}
+        {% if contact_request.message %}
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Message:</div>
+          <div class="col-sm-8">{{ contact_request.message }}</div>
+        </div>
+        {% endif %}
+        <div class="row">
+          <div class="col-sm-4 detail-label">Submitted On:</div>
+          <div class="col-sm-8">{{ contact_request.created_at|date:"M d, Y h:i A" }}</div>
+        </div>
+      </div>
+      <div class="card-footer text-right">
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

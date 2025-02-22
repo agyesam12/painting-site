@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirm Delete Booking Request</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 60px;
+      background-color: #f8f9fa;
+    }
+    .card {
+      margin: 20px auto;
+      max-width: 600px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card shadow-sm">
+      <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">Confirm Deletion</h4>
+      </div>
+      <div class="card-body">
+        <p class="lead">Are you sure you want to delete the following booking request?</p>
+        <ul class="list-group mb-3">
+          <li class="list-group-item"><strong>ID:</strong> {{ contact_request_id }}</li>
+          <li class="list-group-item"><strong>Name:</strong> {{ contact_request.name }}</li>
+          <li class="list-group-item"><strong>Email:</strong> {{ contact_request.email }}</li>
+          <li class="list-group-item"><strong>Service Type:</strong> {{ contact_request.service_type }}</li>
+          {% if contact_request.message %}
+          <li class="list-group-item"><strong>Message:</strong> {{ contact_request.message }}</li>
+          {% endif %}
+        </ul>
+        <form method="post">
+          {% csrf_token %}
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

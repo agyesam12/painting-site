@@ -430,5 +430,54 @@ class ServiceDeleteView(DeleteView, LoginRequiredMixin):
     def get_success_url(self):
         messages.success(self.request, f"service deleted successfully!")
         return reverse('display_service')
+
+
+class AdminDeleteBookingRequest(LoginRequiredMixin, DeleteView):
+    model = ContactRequest
+    template_name = 'confirm_booking_service_delete.html'
+    
+
+    def get_object(self):
+        return get_object_or_404(ContactRequest, pk=self.kwargs['contact_request_id'])
+
+
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        contact_request = self.get_object()
+        contact_request_id = self.get_object().pk
+        contact_request_id = f"{contact_request_id[:3]} {contact_request_id[3:6]} {contact_request_id[6:9]} {contact_request_id[9:]}"
+        context['page_name'] = 'admin_delete_bookingservices'
+        context['list_name'] = 'admin_services'
+        context['contact_request'] = contact_request
+        context['contact_request_id'] = contact_request_id
+        return context
+
+
+    def get_success_url(self):
+        messages.success(self.request, f"Booking Service deleted successfully")
+        return reverse('admin_dashboard')
+
+
+
+class AdminViewBookingRequestDetails(LoginRequiredMixin, DetailView):
+    model = ContactRequest
+    template_name = 'booking_request_details.html'
+
+
+    def get_object(self):
+        return get_object_or_404(ContactRequest, pk=self.kwargs['contact_request_id'])
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contact_request = self.get_object()
+        contact_request_id = self.get_object().pk
+        contact_request_id = f"{contact_request_id[:3]} {contact_request_id[3:6]} {contact_request_id[6:9]} {contact_request_id[9:]}"
+        context['contact_request'] = contact_request
+        context['contact_request_id'] = contact_request_id
+        context['page_name'] = 'booking_details'
+        context['list_name'] = 'booking_lists'
+        return context
+        
     
 

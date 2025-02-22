@@ -244,7 +244,8 @@ class PortfolioDeleteView(DeleteView, LoginRequiredMixin):
 
 def portfolio_lists(request):
     portfolios = Portfolio.objects.all()
-    context = {'portfolios':portfolios}
+    page_name = 'services'
+    context = {'portfolios':portfolios,'page_name':page_name}
     return render(request, 'portfolio_lists.html', context)
 
 
@@ -398,7 +399,7 @@ class DisplayService(ListView):
 
 
 
-class ServiceDetails(LoginRequiredMixin,DetailView):
+class ServiceDetails(DetailView):
     model = Service
     template_name = 'service_details.html'
     context_object_name = 'service'

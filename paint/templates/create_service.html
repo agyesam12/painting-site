@@ -8,36 +8,50 @@
     <button type="submit" class="btn btn-primary">Create Service</button>
   </form>
 
-  <!-- Image preview -->
-  <div class="image-preview">
-    <h2>Image</h2>
-    <img id="before-image-preview" src="" alt="Before Image Preview" />
-    <h2>After Image Preview</h2>
-    <img id="after-image-preview" src="" alt="After Image Preview" />
+  <!-- Image Preview -->
+  <div class="image-preview mt-4">
+    <h2>Image Preview</h2>
+    <img id="image-preview" src="" alt="Image Preview" class="img-fluid preview-img" />
   </div>
 
-  <script>
-    // Image preview script
-    const beforeImageInput = document.getElementById('id_before_image');
-    const afterImageInput = document.getElementById('id_after_image');
-    const beforeImagePreview = document.getElementById('before-image-preview');
-    const afterImagePreview = document.getElementById('after-image-preview');
-    beforeImageInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        beforeImagePreview.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
+  <style>
+    .preview-img {
+      max-width: 300px;
+      height: auto;
+      border: 1px solid #ccc;
+      padding: 5px;
+      border-radius: 4px;
+      display: block;
+      margin: 0 auto;
+    }
+    @media (max-width: 576px) {
+      .preview-img {
+        max-width: 200px;
+      }
+    }
+  </style>
 
-    afterImageInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        afterImagePreview.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const imageInput = document.getElementById('id_image');
+      const imagePreview = document.getElementById('image-preview');
+
+      if (imageInput) {
+        imageInput.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imagePreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+          } else {
+            imagePreview.src = "";
+          }
+        });
+      } else {
+        console.error("Image input with id 'id_image' not found.");
+      }
     });
   </script>
 {% endblock %}

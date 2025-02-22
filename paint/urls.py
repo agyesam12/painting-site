@@ -27,8 +27,10 @@ urlpatterns = [
     path('portfolio/delete/<int:pk>', PortfolioDeleteView.as_view(), name='delete_portfolio'),
     path('portfolio_detail/<int:pk>/', PortfolioDetailView.as_view(), name='portfolio_detail'),
     path('create_service/',CreateService.as_view(), name='create_service'),
-    path('UpdateService/<int:portfolio_id>/', UpdateService.as_view(), name='update_service'),
+    path('UpdateService/<str:portfolio_id>/', UpdateService.as_view(), name='update_service'),
     path('DisplayService/', DisplayService.as_view(), name='display_service'),
-    path('service/detail/<int:pk>/',ServiceDetails.as_view(),name='service_detail'),
-    path('service/delete/<int:pk>', ServiceDeleteView.as_view(), name='delete_service'),
+    path('service/detail/<str:service_id>/',ServiceDetails.as_view(),name='service_detail'),
+    path('service/delete/<str:service_id>', ServiceDeleteView.as_view(), name='delete_service'),
+    path('staff/delete_booking_requests/<str:contact_request_id>', AdminDeleteBookingRequest.as_view(), name='admin_delete_booking_request'),
+    path('staff/view_booking_request_details/<str:contact_request_id>', AdminViewBookingRequestDetails.as_view(), name='admin_view_booking_request_details'),
 ]

@@ -1,21 +1,99 @@
-{% extends 'main.html' %}
-{% load static %}
-{% block content %}
-<style>
-    .delete-portfolio-form {
-  margin-top: 20px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Service Details &amp; Delete Confirmation</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      padding-top: 60px;
+    }
+    .card {
+      margin: 20px auto;
+      max-width: 900px;
+    }
+    .detail-label {
+      font-weight: 600;
+    }
+    .img-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .img-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Service Details Card -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Service Details</h4>
+      </div>
+      <div class="card-body">
+        <!-- Service Image -->
+        {% if service.image %}
+        <div class="img-container">
+          <img src="{{ service.image.url }}" alt="{{ service.name }}">
+        </div>
+        {% endif %}
+        <!-- Service Information -->
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Service ID:</div>
+          <div class="col-sm-8">{{ service_id }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Name:</div>
+          <div class="col-sm-8">{{ service.name }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Category:</div>
+          <div class="col-sm-8">{{ service.category }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Description:</div>
+          <div class="col-sm-8">{{ service.description }}</div>
+        </div>
+        {% if service.created_by %}
+        <div class="row mb-3">
+          <div class="col-sm-4 detail-label">Created By:</div>
+          <div class="col-sm-8">{{ service.created_by.username }}</div>
+        </div>
+        {% endif %}
+        <div class="row">
+          <div class="col-sm-4 detail-label">Created On:</div>
+          <div class="col-sm-8">{{ service.created_at|date:"M d, Y h:i A" }}</div>
+        </div>
+      </div>
+    </div>
 
-.delete-portfolio-form button[type="submit"] {
-  margin-right: 10px;
-}
+    <!-- Delete Confirmation Card -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">Delete Service</h4>
+      </div>
+      <div class="card-body">
+        <p class="lead">Are you sure you want to delete this service?</p>
+        <form method="post">
+          {% csrf_token %}
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'display_service' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
-</style>
-  <h1>Delete Service: {{ object.name }}</h1>
-  <p>Are you sure you want to delete this Service? This action cannot be undone.</p>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Delete Service</button>
-    <a href="{% url 'service_detail' object.pk %}" class="btn btn-secondary">Cancel</a>
-  </form>
-{% endblock %}
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

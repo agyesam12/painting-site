@@ -139,11 +139,11 @@
             <tbody>
                 {% for booking in pending_bookings %}
                 <tr>
-                    <td>{{ booking.name }}</td>
+                    <td><a href="{% url 'admin_view_booking_request_details' booking.pk %}">{{ booking.name }}</a></td>
                     <td>{{ booking.email }}</td>
                     <td>{{ booking.phone }}</td>
                     <td>{{ booking.service_type }}</td>
-                    <td>{{ booking.address }}</td>
+                    <td><a href="{% url 'admin_view_booking_request_details' booking.pk %}">{{ booking.address }}</a></td>
                     <td>{{ booking.location }}</td>
                     <td>{{ booking.message }}</td>
                     <td>

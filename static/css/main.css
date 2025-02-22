@@ -70,7 +70,6 @@ textarea::placeholder {
   
   /* Home Section */
   .home {
-    background-image: url("static/assets/home.jpg");
     background-size: cover;
     background-position: center;
     height: 100vh;

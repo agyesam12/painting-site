@@ -147,8 +147,8 @@
                     <td>{{ booking.location }}</td>
                     <td>{{ booking.message }}</td>
                     <td>
-                        <!-- Add actions like approve/reject here -->
-                        <a href="#" class="btn btn-success btn-sm">delete</a>
+                        
+                        <a href="{% url 'admin_delete_booking_request' booking.pk %}" class="btn btn-success btn-sm">delete</a>
         
                     </td>
                 </tr>

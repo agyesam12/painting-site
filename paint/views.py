@@ -362,28 +362,36 @@ class CreateService(LoginRequiredMixin, CreateView):
 class UpdateService(LoginRequiredMixin, UpdateView):
     model = Service
     template_name = 'update_service.html'
+    context_object_name = 'service'
     fields =['name','description','category','image']
 
 
-    def get_context_data(request, **kwargs):
+    def get_object(self, queryset=None):
+        return get_object_or_404(Service, pk=self.kwargs['service_id'])
+
+
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        service = self.get_object()
+        service_id = self.get_object().pk
+        service_id = f"{service_id[:3]} {service_id[3:6]} {service_id[6:9]} {service_id[9:]}"
+        context['service'] = service
+        context['service_id'] = service_id
         context['page_name'] = 'services'
         context['list_name'] = 'services_lists'
         return context
     
 
-    def get_object(self, queryset=None):
-        return Service.objects.get(portfolio_id=self.kwargs['service_id'])
-
+   
     
     def form_valid(self, form):
-        messages.success(self.request, 'Your Service has been updated successfully!')
+        messages.success(self.request,' Service has been updated successfully!')
         return super().form_valid(form)
     
 
     def get_success_url(self):
-        return reverse("service_detail", kwargs={"pk": self.object.pk})
-    
+        return reverse("service_detail", kwargs={"service_id": self.kwargs["service_id"]})
+
 
 
 

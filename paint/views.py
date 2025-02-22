@@ -58,8 +58,14 @@ def home(request):
         messages.success(request, f"Your booking has been submited successfully, the team will reach out to you immediately")
         return redirect(request.META.get("HTTP_REFERER"))
     else:
+        # Fetch only one latest service and one latest portfolio
+        latest_service = Service.objects.order_by('-created_at').first()
+        latest_portfolio = Portfolio.objects.order_by('-created_at').first()
+
         context = {
-            'booking_service_types': BOOKING_SERVICE_TYPE
+            'booking_service_types': BOOKING_SERVICE_TYPE,
+            'latest_service': latest_service,
+            'latest_portfolio': latest_portfolio,
         }
         print("Form not submitted yet")
     return render(request,'home.html',context)

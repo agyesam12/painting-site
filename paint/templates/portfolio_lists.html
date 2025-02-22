@@ -1,52 +1,121 @@
 {% extends 'main.html' %}
 {% load static %}
-{% block content %}
+{% block extra_css %}
 <style>
-    .portfolio-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+  .portfolio-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+  }
 
-.portfolio-item {
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+  .portfolio-item {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    max-width: 350px;
+  }
+  
+  .portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  }
 
-.image-gallery {
-  display: flex;
-  justify-content: space-between;
-}
+  .portfolio-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+  }
 
-.image-gallery img {
-  width: 45%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-}
+  .portfolio-body {
+    padding: 15px;
+  }
 
+  .portfolio-body p {
+    color: #555;
+  }
 
+  .image-gallery {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .image-gallery img {
+    width: 50%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s;
+  }
+
+  .image-gallery img:hover {
+    transform: scale(1.05);
+  }
+
+  .portfolio-footer {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    color: #777;
+    text-align: center;
+    border-top: 1px solid #eee;
+  }
+
+  .portfolio-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  .portfolio-actions a {
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .portfolio-actions a:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
 </style>
-  <h1>Portfolios</h1>
-  <div class="portfolio-list">
-    {% for portfolio in portfolios %}
-      <div class="portfolio-item">
-        <h2>{{ portfolio.title }}</h2>
-        <p>{{ portfolio.description }}</p>
-        <div class="image-gallery">
-          <img src="{{ portfolio.before_image.url }}" alt="Before Image" />
-          <img src="{{ portfolio.after_image.url }}" alt="After Image" />
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <h1 class="text-center my-4">Portfolios</h1>
+    <div class="portfolio-list">
+      {% for portfolio in portfolios %}
+        <div class="portfolio-item">
+          <div class="portfolio-header">
+            <h2 class="h5 mb-0">{{ portfolio.title }}</h2>
+          </div>
+          <div class="portfolio-body">
+            <p>{{ portfolio.description }}</p>
+            <div class="image-gallery">
+              <img src="{{ portfolio.before_image.url }}" alt="Before Image" />
+              <img src="{{ portfolio.after_image.url }}" alt="After Image" />
+            </div>
+            <div class="portfolio-actions">
+              {% if request.user == portfolio.created_by %}
+                <a href="{% url 'update_portfolio' portfolio.pk %}">Edit</a>
+                <a href="{% url 'delete_portfolio' portfolio.pk %}">Delete</a>
+              {% endif %}
+            </div>
+          </div>
+          <div class="portfolio-footer">
+            <p>Created by: {{ portfolio.created_by.email }}</p>
+            <p>Created at: {{ portfolio.created_at|date:"M d, Y" }}</p>
+          </div>
         </div>
-        <p>Created by: {{ portfolio.created_by.email }}</p>
-        <p>Created at: {{ portfolio.created_at }}</p>
-        {% if request.user == portfolio.created_by %}
-    <a href="{% url 'update_portfolio' portfolio.pk %}">Edit Portfolio</a>
-    <a href="{% url 'delete_portfolio' portfolio.pk %}">Delete Portfolio</a>
-  {% endif %}
-      </div>
-    {% endfor %}
+      {% endfor %}
+    </div>
   </div>
 {% endblock %}

@@ -22,6 +22,12 @@
                     {% if request.user.is_authenticated %}
                     <a href="{% url 'delete_service' service.service_id %}" class="block text-blue-600 mt-4 font-semibold hover:underline">Delete service</a>
                     {% endif %}
+                    {% if request.user.is_authenticated %}
+                    <a href="{% url 'admin_dashboard'  %}" class="block text-blue-600 mt-4 font-semibold hover:underline">Back to dashboard</a>
+                    {% else %}
+                    <a href="{% url 'home'  %}" class="block text-blue-600 mt-4 font-semibold hover:underline">Back to home</a>
+                    {% endif %}
+                   
                 </div>
             </div>
             {% empty %}

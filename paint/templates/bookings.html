@@ -107,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <h3 id="portfolio">Recent Portfolio Updates</h3>
+        <h3 id="portfolio">Recent Booking Updates</h3>
         <div class="row">
             {% for update in portfolio_updates %}
             <div class="col-md-4 mb-3">
@@ -139,16 +139,16 @@
             <tbody>
                 {% for booking in bookings %}
                 <tr>
-                    <td>{{ booking.name }}</td>
+                    <td><a href="{% url 'admin_view_booking_request_details' booking.pk %}">{{ booking.name }}</a></td>
                     <td>{{ booking.email }}</td>
                     <td>{{ booking.phone }}</td>
                     <td>{{ booking.service_type }}</td>
-                    <td>{{ booking.address }}</td>
+                    <td><a href="{% url 'admin_view_booking_request_details' booking.pk %}">{{ booking.address }}</a></td>
                     <td>{{ booking.location }}</td>
-                    <td>{{ booking.message }}</td>
+                    <td>{{ booking.message }}</td> 
                     <td>
                         <!-- Add actions like approve/reject here -->
-                        <a href="#"class="btn btn-success btn-sm">delete</a>
+                        <a href="{% url 'admin_delete_booking_request' booking.pk %}"class="btn btn-success btn-sm">delete</a>
                     </td>
                 </tr>
                 {% endfor %}

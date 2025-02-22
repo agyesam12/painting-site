@@ -406,7 +406,7 @@ class ServiceDetails(LoginRequiredMixin,DetailView):
 
 
     def get_object(self, queryset=None):
-        return Service.objects.get(pk=self.kwargs['pk'])
+        return Service.objects.get(pk=self.kwargs['service_id'])
     
 
     def get_context_data(self , **kwargs):
@@ -419,11 +419,19 @@ class ServiceDetails(LoginRequiredMixin,DetailView):
 class ServiceDeleteView(DeleteView, LoginRequiredMixin):
     model = Service
     template_name = 'service_confirm_delete.html'
+
+    def get_object(self):
+        return get_object_or_404(Service, pk=self.kwargs['service_id'])
     
 
     def get_context_data(self , **kwargs):
         context = super().get_context_data(**kwargs)
+        service = self.get_object()
+        service_id = self.get_object().pk
+        service_id = f"{service_id[:3]} {service_id[3:6]} {service_id[6:9]} {service_id[9:]}"
         context['page_name'] = "service_delete"
+        context['service'] = service
+        context['service_id'] = service_id
         return context
     
     

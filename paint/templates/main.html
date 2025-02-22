@@ -44,7 +44,11 @@
         <ul>
           {% if not request.user.is_authenticated %}
           <li><a href="{% url 'home' %}">Home</a></li>
-          <li><a href="/services">Services</a></li>
+          {% if page_name == 'services' %}
+          <li><a href="{% url 'display_service' %}">Services</a></li>
+          {% else %}
+          <li><a href="#services">Services</a></li>
+          {% endif %}
           <li><a href="/about">About</a></li>
           <li><a href="/review">Review</a></li>
           <li><a href="/contact">Contact</a></li>

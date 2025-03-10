@@ -39,6 +39,9 @@ from django.utils.decorators import method_decorator
 from .forms import ServiceForm, PortfolioForm, TestimonialForm
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
+from packages.logentry import create_log_entry
+from django.contrib.contenttypes.models import ContentType
+from packages.sms_utils import send_sms
 #import stripe
 
 # Create your views here.
@@ -79,6 +82,14 @@ def signin(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Logged In Successfully...")
+            create_log_entry(
+                user=user,
+                content_type=ContentType.objects.get_for_model(User),
+                object_id=user.pk,
+                object_repr=str(user),
+                action_flag=2,
+                change_message= f"User {user.pk} has logged in successfully"
+            )
             if user.is_user:
                 return redirect('user_dashboard')
             elif user.is_admin:
@@ -109,7 +120,16 @@ def register(request):
 
 @login_required
 def signout(request):
+    create_log_entry(
+                user=request.user,
+                content_type=ContentType.objects.get_for_model(User),
+                object_id=request.user.pk,
+                object_repr=str(request.user),
+                action_flag=2,
+                change_message= f"User {request.user.pk} has logged out successfully"
+            )
     logout(request)
+    
     messages.success(request,f"You have logged out successfuly..")
     return redirect('signin')
 
@@ -140,6 +160,14 @@ def create_service(request):
             service = form.save(commit=False)
             service.created_by = request.user
             service.save()
+            create_log_entry(
+                user=request.user,
+                content_type=ContentType.objects.get_for_model(Service),
+                object_id=service.pk,
+                object_repr=str(service),
+                action_flag=2,
+                change_message= f"User {request.user.pk} has created a new service"
+            )
             return redirect('display_service')  # Redirect to a page that lists services
     else:
         form = ServiceForm()
@@ -225,6 +253,14 @@ class UpdatePortfolio(LoginRequiredMixin,UpdateView):
 
     
     def form_valid(self, form):
+        create_log_entry(
+                user=user,
+                content_type=ContentType.objects.get_for_model(Portfolio),
+                object_id=self.get_object.pk,
+                object_repr=str(user),
+                action_flag=2,
+                change_message= f"User {user.pk} has updated portfolio successfully"
+            )
         messages.success(self.request, 'Your Portfolio has been updated successfully!')
         return super().form_valid(form)
     
@@ -245,6 +281,14 @@ class PortfolioDeleteView(DeleteView, LoginRequiredMixin):
     
     def get_success_url(self):
         messages.success(self.request, f"Portfolio deleted successfully!")
+        create_log_entry(
+                user=user,
+                content_type=ContentType.objects.get_for_model(Portfolio),
+                object_id=self.get_object.pk,
+                object_repr=str(user),
+                action_flag=2,
+                change_message= f"User {user.pk} has deleted {self.get_object.pk}"
+            )
         return reverse('portfolio_lists')
     
 
@@ -350,6 +394,14 @@ class CreateService(LoginRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
+        create_log_entry(
+                user=user,
+                content_type=ContentType.objects.get_for_model(Service),
+                object_id=self.object.pk,
+                object_repr=str(self.object),
+                action_flag=1,
+                change_message= f"User {self.requst.user.pk} has created a new service"
+            )
         return super().form_valid(form)
     
 
@@ -385,6 +437,14 @@ class UpdateService(LoginRequiredMixin, UpdateView):
    
     
     def form_valid(self, form):
+        create_log_entry(
+                user=self.request.user,
+                content_type=ContentType.objects.get_for_model(Service),
+                object_id=self.object.pk,
+                object_repr=str(user),
+                action_flag=2,
+                change_message= f"User {user.pk} has updated service of {self.get_object.pk}"
+            )
         messages.success(self.request,' Service has been updated successfully!')
         return super().form_valid(form)
     

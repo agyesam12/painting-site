@@ -28,3 +28,10 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
+
+
+#Change Site Title, Index Title and Site Title
+admin.site.site_header = "Paint Palors Administration"
+admin.site.site_title = "Paint Parlors Administration"
+admin.site.index_title = "Welcome to Paint Palors Administration Panel"
+

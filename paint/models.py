@@ -8,6 +8,10 @@ from django.db.models.signals import post_save
 from datetime import timedelta
 from django.utils.timezone import now
 import random
+from packages.logentry import create_log_entry
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.admin.models import LogEntry
+
 
 # Service and Estimate Categories
 SERVICE_CATEGORIES = (
@@ -46,12 +50,15 @@ class User(AbstractUser):
     is_verified = models.BooleanField(default=False)
     bio = CKEditor5Field(config_name='extends', max_length=200, blank=True, default="Hi there,...")
     otp = models.CharField(max_length=4, blank=True, null=True)
+    allow_sms = models.BooleanField(default=True)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
     
     def __str__(self):
         return self.email
+
+
 
 # Service Model
 class Service(models.Model):
@@ -66,6 +73,8 @@ class Service(models.Model):
     def __str__(self):
         return self.name
 
+
+
 # Portfolio Model
 class Portfolio(models.Model):
     portfolio_id = IntegerIDField(unique=True, editable=False, primary_key=True)
@@ -79,6 +88,8 @@ class Portfolio(models.Model):
     def __str__(self):
         return self.title
 
+
+
 # Testimonial Model
 class Testimonial(models.Model):
     testimonial_id = IntegerIDField(unique=True, editable=False, primary_key=True)
@@ -90,6 +101,7 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.rating} ★"
+
 
 # Contact Request Model
 class ContactRequest(models.Model):
@@ -105,6 +117,31 @@ class ContactRequest(models.Model):
 
     def __str__(self):
         return f"Contact from {self.name} - {self.email}"
+
+    def get_system_user(self):
+        """Returns a default system user for log entries"""
+        return User.objects.filter(is_admin=True).first() 
+    
+    def save(self, *args, **kwargs):
+    
+        is_new = self._state.adding
+        print(is_new)
+        if is_new:
+            create_log_entry(
+                user=self.get_system_user(),
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.pk,
+                object_repr=str(self),
+                action_flag=1,
+                change_message=f"{self.name} sent you to a message"
+            )
+            print("Created successfully ...")
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        ordering = ['-created_at']
+
+
 
 # Estimate Request Model
 class EstimateRequest(models.Model):
@@ -131,6 +168,7 @@ class FAQ(models.Model):
     def __str__(self):
         return self.question
 
+
 # Notification Model
 class Notification(models.Model):
     notification_id = IntegerIDField(unique=True, editable=False, primary_key=True)
@@ -141,6 +179,7 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.email}"
+
 
 # Signal to create notifications
 @receiver(post_save, sender=ContactRequest)
@@ -153,6 +192,7 @@ def create_contact_notification(sender, instance, created, **kwargs):
                 user=site_owner,
                 message=f"New contact request from {instance.name}"
             )
+
 
 @receiver(post_save, sender=EstimateRequest)
 def create_estimate_notification(sender, instance, created, **kwargs):

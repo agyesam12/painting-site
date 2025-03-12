@@ -139,6 +139,9 @@ MEDIA_URL = "media/"
 AUTH_USER_MODEL = 'paint.User'
 LOGIN_URL = 'signin'
 
+SMS_API_KEY = os.environ.get('SMS_API_KEY')
+SMS_SENDER_ID = os.environ.get('SMS_SENDER_ID')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

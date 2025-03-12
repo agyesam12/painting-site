@@ -102,6 +102,30 @@ class Testimonial(models.Model):
     def __str__(self):
         return f"{self.name} - {self.rating} ★"
 
+    def get_system_user(self):
+        """Returns a default system user for log entries"""
+        return User.objects.filter(is_admin=True).first() 
+    
+    def save(self, *args, **kwargs):
+    
+        is_new = self._state.adding
+        print(is_new)
+        if is_new:
+            create_log_entry(
+                user=self.get_system_user(),
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.pk,
+                object_repr=str(self),
+                action_flag=1,
+                change_message=f"{self.name} added a testimonial"
+            )
+            print("Created successfully ...")
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        ordering = ['-created_at']
+
+
 
 # Contact Request Model
 class ContactRequest(models.Model):
@@ -157,6 +181,30 @@ class EstimateRequest(models.Model):
     def __str__(self):
         return f"Estimate for {self.service_type.name} by {self.name}"
 
+    def get_system_user(self):
+        """Returns a default system user for log entries"""
+        return User.objects.filter(is_admin=True).first() 
+    
+    def save(self, *args, **kwargs):
+    
+        is_new = self._state.adding
+        print(is_new)
+        if is_new:
+            create_log_entry(
+                user=self.get_system_user(),
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.pk,
+                object_repr=str(self),
+                action_flag=1,
+                change_message=f"{self.name} added a new estimated request"
+            )
+            print("Created successfully ...")
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        ordering = ['-created_at']
+
+
 
 # FAQ Model
 class FAQ(models.Model):
@@ -167,6 +215,30 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
+
+    def get_system_user(self):
+        """Returns a default system user for log entries"""
+        return User.objects.filter(is_admin=True).first() 
+    
+    def save(self, *args, **kwargs):
+    
+        is_new = self._state.adding
+        print(is_new)
+        if is_new:
+            create_log_entry(
+                user=self.get_system_user(),
+                content_type=ContentType.objects.get_for_model(self),
+                object_id=self.pk,
+                object_repr=str(self),
+                action_flag=1,
+                change_message=f"{self.name} asked a question"
+            )
+            print("Created successfully ...")
+        super().save(*args, **kwargs)
+    
+    class Meta:
+        ordering = ['-created_at']
+
 
 
 # Notification Model

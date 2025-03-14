@@ -1,0 +1,24 @@
+{% load static %}
+
+<script src="{% static 'dashboard/assets/js/jquery-3.6.0.min.js' %}"></script>
+<script src="{% static 'dashboard/assets/js/core/popper.min.js' %}"></script>
+<script src="{% static 'dashboard/assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'dashboard/assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'dashboard/assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script src="{% static 'dashboard/assets/js/select2.min.js' %}"></script>
+
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+    // In your Javascript (external .js resource or <script> tag)
+    $(document).ready(function () {
+        $('.custom-select2').select2();
+    });
+</script>
+<script async defer src="{% static 'dashboard/assets/js/button.js' %}"></script>
+<script src="{% static 'dashboard/assets/js/soft-ui-dashboard.min.js' %}"></script>

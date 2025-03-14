@@ -1,0 +1,77 @@
+{% load static %}
+<div class="d-flex justify-content-end mr-2">
+    <nav>
+        <ul class="pagination">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a href="?page=1" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevrons-left"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled" style="display: none;">
+                    <a href="#" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevrons-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevron-left"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled" style="display: none;">
+                    <a href="#" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevron-left"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if num >= page_obj.number|add:-2 and num <= page_obj.number|add:2 %}
+                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                        <a href="?page={{ num }}" class="page-link bg-gradient-primary">{{ num }}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.next_page_number }}" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevron-right"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled" style="display: none;">
+                    <a href="#" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevron-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevrons-right"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled" style="display: none;">
+                    <a href="#" class="page-link bg-gradient-primary">
+                        <i class="bx bx-chevrons-right"></i>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+<style>
+    .page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    border-color: rgb(245 126 57) !important;
+}
+</style>

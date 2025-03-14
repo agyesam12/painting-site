@@ -1,0 +1,64 @@
+{% load static %}
+
+<style>
+    .abouts{
+    background: linear-gradient(rgba(0, 0, 0, .1), rgba(0, 0, 0, .1)), url("{% static 'media/cedis.jpg' %}") left center no-repeat;
+    background-size: cover;
+}
+</style>
+    <!-- About Start -->
+    <div class="container-xxl abouts my-5">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-lg-6">
+                    <div class="h-100 d-flex align-items-center justify-content-center" style="min-height: 300px;">
+                        <button type="button" class="btn-play">
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6 pt-lg-5 wow fadeIn" data-wow-delay="0.5s">
+                    <div class="bg-white rounded-top p-5 mt-lg-5">
+                        <p class="fs-5 fw-medium text-primary">About Us</p>
+                        <h1 class="display-6 mb-4">The Best and Trusted Platform to help Improve Your Bussines and achieve your goals</h1>
+                        <p class="mb-4">Get an account today and join our community for trusted services</p>
+                        <div class="row g-5 pt-2 mb-5">
+                            <div class="col-sm-6">
+                                <img class="img-fluid mb-4" src="{% static 'frontend/img/icon/icon-5.png' %}" alt="">
+                                <h5 class="mb-3">Savings</h5>
+                                <span>Book for painting Services at your best confort, powered by our expert developers</span>
+                            </div>
+                            <div class="col-sm-6">
+                                <img class="img-fluid mb-4" src="{% static 'frontend/img/icon/icon-2.png' %}" alt="">
+                                <h5 class="mb-3">Dedicated Support</h5>
+                                <span>All your enquiries are most welcome. Get your answers today</span>
+                            </div>
+                        </div>
+                        <a class="btn btn-primary rounded-pill py-3 px-5" href="{% url 'contact' %}">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+    <!-- Video Modal Start -->
+    <!-- <div class="modal modal-video fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Youtube Video</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowfullscreen
+                            allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Video Modal End -->

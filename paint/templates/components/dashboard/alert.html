@@ -1,0 +1,117 @@
+{% load static %}
+<div class="col-md-4">
+    <div class="modal fade" id="ApproveFormSubmission" tabindex="-1" role="dialog"
+        aria-labelledby="ApproveFormSubmission" aria-hidden="true">
+        <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-notification">Your attention is required</h6>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="bx bx-x"></i></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="ni ni-bell-55 ni-3x"></i>
+                        <h4 class="text-gradient text-danger mt-4">Ready to submit this form?!</h4>
+                        <p>Please ensure that all entered data are correct before proceeding...!</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn bg-gradient-primary"
+                        style="display: flex; column-gap: 3px; font-size: 0.75rem !important;" type="submit"
+                        onclick="showLoader(this)">
+                        <span class="button-text">Submit</span>
+                        <span class="spinner-border spinner-border-sm text-info d-none" role="status"
+                            id="loader"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showLoader(button) {
+    // Show loader
+    const loader = button.querySelector('#loader');
+    loader.classList.remove('d-none');
+
+    // Hide button text
+    const btnTxt = button.querySelector('.button-text');
+    btnTxt.classList.add('d-none');
+
+    // Disable the button after a short delay to allow form submission
+    setTimeout(() => {
+        button.disabled = true;
+    }, 100);
+}
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("submissionForm");
+        const modalTriggerButton = document.getElementById("modalTriggerButton");
+        const modal = new bootstrap.Modal(document.getElementById("ApproveFormSubmission")); // Bootstrap Modal instance
+        const requiredFields = Array.from(form.querySelectorAll("[required]"));
+        const resetButton = document.querySelector("button[type='reset']");
+
+        function validateFormFields() {
+            let firstInvalidField = requiredFields.find(input => !input.value.trim());
+
+            if (firstInvalidField) {
+                firstInvalidField.focus(); // Focus only on the first empty field
+                return false;
+            }
+            return true;
+        }
+
+        function checkFormCompletion() {
+            modalTriggerButton.disabled = requiredFields.some(input => !input.value.trim());
+        }
+
+        // Check fields on input change and enable button when all fields are filled
+        requiredFields.forEach(input => {
+            input.addEventListener("input", checkFormCompletion);
+        });
+
+        // Prevent modal from opening if fields are empty
+        modalTriggerButton.addEventListener("click", function (event) {
+            if (!validateFormFields()) {
+                event.preventDefault(); // Stop modal from opening
+            }
+        });
+
+        // Handle Enter key press
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Stop default form submission
+
+                // If no field is focused OR the focused element is the body (meaning no input is active)
+                if (!document.activeElement || document.activeElement.tagName === "BODY") {
+                    let firstInvalidField = requiredFields.find(input => !input.value.trim());
+                    if (firstInvalidField) {
+                        firstInvalidField.focus(); // Focus on the first required field
+                        return;
+                    }
+                }
+
+                // If all fields are valid, open the modal
+                if (validateFormFields()) {
+                    modal.show();
+                }
+            }
+        });
+
+        // Reset form and disable button when reset is clicked
+        resetButton.addEventListener("click", function () {
+            setTimeout(() => {
+                modalTriggerButton.disabled = true; // Disable button after reset
+            }, 10);
+        });
+
+        // Disable button initially
+        checkFormCompletion();
+    });
+</script>

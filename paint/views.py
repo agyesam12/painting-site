@@ -561,6 +561,48 @@ class AdminViewBookingRequestDetails(LoginRequiredMixin, DetailView):
         context['page_name'] = 'booking_details'
         context['list_name'] = 'booking_lists'
         return context
+
+
+class DisplayLogentries(LoginRequiredMixin, ListView):
+    model = LogEntry
+    context_object_name = 'logs'
+    template_name = 'logs.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        total_logs = Logentry.objects.all().count()
+        context['page_name'] = 'logs'
+        context['list_name'] = 'logs'
+        context['total_logs'] = total_logs
+        return context
+
+    def get_queryset(self):
+        return LogEntry.objects.all().order_by('-action_time')
+
+    def get_queryset(self):
+        queryset = LogEntry.objects.select_related('user','-action_time','object_id')
+        search_query = self.request.GET.get("search", "").strip()
+        status_filter = self.request.GET.get("status", "").strip()
+        action_time = self.request.GET.get("action_time", "").strip()
+        object_id = self.request.GET.get("object_id", "").strip()
+
+        if search_query:
+            queryset = queryset.filter(
+            Q(user__username__icontains=search_query)
+            | Q(object_id__id__icontains=search_query)
+            | Q(action_time__icontains=search_query)
+            )
+        if status_filter:
+            queryset = queryset.filter(status__iexact=status_filter)
+
         
+
+        return queryset.order_by("-action_time")
+
+    
+
+
+
+
     
 

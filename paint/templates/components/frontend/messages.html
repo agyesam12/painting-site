@@ -1,0 +1,28 @@
+{% load static %}
+{% for message in messages %}
+
+<div class="alert position-fixed top-1 end-1 alert-dismissible" style="z-index: 99999 !important;">
+  <div class="toast fade p-2 bg-white opacity-10" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header border-0 {{ message.tags }}">
+      <i class="bx bxs-message-rounded-dots me-2">
+      </i>
+      <span class="me-auto font-weight-bold">Message </span>
+      <i class="bx bx-x text-md ms-3 cursor-pointer" data-bs-dismiss="alert" aria-label="Close"></i>
+    </div>
+    <hr class="horizontal dark m-0">
+    <div class="toast-body">
+      {{ message }}
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<style>
+  .toast:not(.showing):not(.show) {
+    opacity: 1 !important;
+}
+
+.fade:not(.show) {
+    opacity: 1 !important;
+}
+</style>
